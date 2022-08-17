@@ -15,7 +15,10 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 console.log("%%: ", path.join(__dirname, "public"));
 
 app.get("/", (_, res) => {
-  res.send("Hello World!");
+  res.send("New Hello World!");
+});
+app.get("/users", (_, res) => {
+  res.send("returned all users");
 });
 
 app.post("/", (_, res) => {
