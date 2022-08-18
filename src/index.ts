@@ -8,7 +8,7 @@ import { HelloResolver } from "./resolvers/hello";
 import { buildSchemaSync } from "type-graphql";
 
 const app = express();
-const port = 8080;
+const port = 8082;
 
 app.use("/static", express.static(path.join(__dirname, "public")));
 
