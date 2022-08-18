@@ -41,6 +41,5 @@ processes = []
   internal_port = 8081
   protocol = 'tcp'
   [[services.ports]]
-    handlers = ["tls", http"]
+    handlers = ["tls", "http"]
     port = 8081
-    
