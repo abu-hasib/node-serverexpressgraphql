@@ -26,11 +26,6 @@ processes = []
     force_https = true
     handlers = ["http"]
     port = 80
-  
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 8081
 
   [[services.ports]]
     handlers = ["tls", "http"]
@@ -41,3 +36,10 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+
+[[services]]
+  internal_port = 8081
+  protocol = 'tcp'
+  [[services.port]]
+    handlers = ["http"]
+    port = 8081
