@@ -7,4 +7,5 @@ RUN yarn install --production
 RUN yarn add typescript
 RUN yarn build
 CMD ["node", "dist/index.js"]
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081

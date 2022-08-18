@@ -17,21 +17,6 @@ console.log("%%: ", path.join(__dirname, "public"));
 app.get("/", (_, res) => {
   res.send("New Hello World!");
 });
-app.get("/users", (_, res) => {
-  res.send("returned all users");
-});
-
-app.post("/", (_, res) => {
-  res.send("Got a POST request");
-});
-
-app.put("/user", (_, res) => {
-  res.send("Got a PUT request at /user");
-});
-
-app.delete("/user", (_, res) => {
-  res.send("Got a DELETE request at /user");
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
@@ -44,22 +29,6 @@ const typeDefs = gql`
     hello: String
   }
 `;
-
-// A map of functions which return data for the schema.
-// const resolvers = {
-//   Query: {
-//     hello: () => "world",
-//   },
-// };
-
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-// });
-
-// server.listen().then(({ url }) => {
-//   console.log(`🚀 Server ready at ${url}`);
-// });
 
 async function startApolloServer() {
   const app = express();
@@ -76,15 +45,38 @@ async function startApolloServer() {
     res.send("Hello World!");
   });
 
+  app.get("/users", (_, res) => {
+    res.send("returned all users");
+  });
+
+  app.post("/", (_, res) => {
+    res.send("Got a POST request");
+  });
+
+  app.put("/user", (_, res) => {
+    res.send("Got a PUT request at /user");
+  });
+
+  app.delete("/user", (_, res) => {
+    res.send("Got a DELETE request at /user");
+  });
+
   await server.start();
 
   server.applyMiddleware({ app });
 
-  await new Promise((resolve: any) =>
-    httpServer.listen({ port: 8081 }, resolve)
-  );
+  app.use((_, res) => {
+    res.status(200);
+
+    res.send("Hello!");
+
+    res.end();
+  });
+
+  await new Promise((resolve: any) => app.listen({ port: 8081 }, resolve));
 
   console.log(`🚀 Server ready at http://localhost:8081${server.graphqlPath}`);
+  return { server, app };
 }
 
 startApolloServer();

@@ -12,20 +12,11 @@ const http_1 = __importDefault(require("http"));
 const hello_1 = require("./resolvers/hello");
 const type_graphql_1 = require("type-graphql");
 const app = (0, express_1.default)();
-const port = 4000;
+const port = 8080;
 app.use("/static", express_1.default.static(path_1.default.join(__dirname, "public")));
 console.log("%%: ", path_1.default.join(__dirname, "public"));
 app.get("/", (_, res) => {
-    res.send("Hello World!");
-});
-app.post("/", (_, res) => {
-    res.send("Got a POST request");
-});
-app.put("/user", (_, res) => {
-    res.send("Got a PUT request at /user");
-});
-app.delete("/user", (_, res) => {
-    res.send("Got a DELETE request at /user");
+    res.send("New Hello World!");
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
@@ -47,10 +38,28 @@ async function startApolloServer() {
     app.get("/", (_, res) => {
         res.send("Hello World!");
     });
+    app.get("/users", (_, res) => {
+        res.send("returned all users");
+    });
+    app.post("/", (_, res) => {
+        res.send("Got a POST request");
+    });
+    app.put("/user", (_, res) => {
+        res.send("Got a PUT request at /user");
+    });
+    app.delete("/user", (_, res) => {
+        res.send("Got a DELETE request at /user");
+    });
     await server.start();
     server.applyMiddleware({ app });
-    await new Promise((resolve) => httpServer.listen({ port: 4001 }, resolve));
-    console.log(`🚀 Server ready at http://localhost:4001${server.graphqlPath}`);
+    app.use((_, res) => {
+        res.status(200);
+        res.send("Hello!");
+        res.end();
+    });
+    await new Promise((resolve) => app.listen({ port: 8081 }, resolve));
+    console.log(`🚀 Server ready at http://localhost:8081${server.graphqlPath}`);
+    return { server, app };
 }
 startApolloServer();
 //# sourceMappingURL=index.js.map
